@@ -137,10 +137,10 @@
 							"// 4) Достать значение из поля 'u_salary_1.5_year' и передать в поле salary запроса http://162.55.220.72:5005/get_test_user\r",
 							"console.log(\"u-salary_1.5_year:\", jsonData.person.u_salary_1_5_year);\r",
 							"\r",
-							"pm.test(\"4.1 Set, get - environment\", function(){\r",
+							"\r",
 							"    pm.environment.set(\"u_salary_1_5_year\", jsonData.person.u_salary_1_5_year);\r",
 							"    reqBody.salary = environment.u_salary_1_5_year; //для текущего запроса, но можно через окружение и в конкретном\r",
-							"})\r",
+							"\r",
 							"\r",
 							"console.log(\"New salary in request:\", reqBody.salary);\r",
 							"\r",
@@ -173,7 +173,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"age\": 20,\r\n    \"salary\": 1000,\r\n    \"name\": \"Vika\",\r\n    \"auth_token\": \"/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny\"\r\n}",
+					"raw": "{\r\n    \"age\": 20,\r\n    \"salary\": 1000,\r\n    \"name\": \"Vika\",\r\n    \"auth_token\": \"{{token}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -318,7 +318,7 @@
 						},
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny",
+							"value": "{{token}}",
 							"type": "text"
 						}
 					]
@@ -426,7 +426,7 @@
 						},
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny",
+							"value": "{{token}}",
 							"type": "text"
 						}
 					]
@@ -568,7 +568,7 @@
 						},
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny",
+							"value": "{{token}}",
 							"type": "text"
 						}
 					]
@@ -631,7 +631,7 @@
 					"formdata": [
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny",
+							"value": "{{token}}",
 							"type": "text"
 						}
 					]
@@ -655,6 +655,119 @@
 		},
 		{
 			"name": "7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1) Статус код 200\r",
+							"pm.test(\"1 Verify status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// 2) Проверка структуры json в ответе.\r",
+							"var jsonData = pm.response.json();\r",
+							"var schema = {\r",
+							"    \"items\": \r",
+							"   {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"object\",\r",
+							"    \"title\": \"The root schema\",\r",
+							"    \"description\": \"The root schema comprises the entire JSON document.\",\r",
+							"    \"default\": {},\r",
+							"    \"examples\": [\r",
+							"        {\r",
+							"            \"Cur_Abbreviation\": \"EUR\",\r",
+							"            \"Cur_ID\": 451,\r",
+							"            \"Cur_Name\": \"Евро\",\r",
+							"            \"Cur_OfficialRate\": 2.9298,\r",
+							"            \"Cur_Scale\": 1,\r",
+							"            \"Date\": \"2022-02-05T00:00:00\"\r",
+							"        }\r",
+							"    ],\r",
+							"    \"required\": [\r",
+							"        \"Cur_Abbreviation\",\r",
+							"        \"Cur_ID\",\r",
+							"        \"Cur_Name\",\r",
+							"        \"Cur_OfficialRate\",\r",
+							"        \"Cur_Scale\",\r",
+							"        \"Date\"\r",
+							"    ],\r",
+							"    \"properties\": {\r",
+							"        \"Cur_Abbreviation\": {\r",
+							"            \"$id\": \"#/properties/Cur_Abbreviation\",\r",
+							"            \"type\": \"string\",\r",
+							"            \"title\": \"The Cur_Abbreviation schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": \"\",\r",
+							"            \"examples\": [\r",
+							"                \"EUR\"\r",
+							"            ]\r",
+							"        },\r",
+							"        \"Cur_ID\": {\r",
+							"            \"$id\": \"#/properties/Cur_ID\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The Cur_ID schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0,\r",
+							"            \"examples\": [\r",
+							"                451\r",
+							"            ]\r",
+							"        },\r",
+							"        \"Cur_Name\": {\r",
+							"            \"$id\": \"#/properties/Cur_Name\",\r",
+							"            \"type\": \"string\",\r",
+							"            \"title\": \"The Cur_Name schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": \"\",\r",
+							"            \"examples\": [\r",
+							"                \"Евро\"\r",
+							"            ]\r",
+							"        },\r",
+							"        \"Cur_OfficialRate\": {\r",
+							"            \"$id\": \"#/properties/Cur_OfficialRate\",\r",
+							"            \"type\": \"number\",\r",
+							"            \"title\": \"The Cur_OfficialRate schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0.0,\r",
+							"            \"examples\": [\r",
+							"                2.9298\r",
+							"            ]\r",
+							"        },\r",
+							"        \"Cur_Scale\": {\r",
+							"            \"$id\": \"#/properties/Cur_Scale\",\r",
+							"            \"type\": \"integer\",\r",
+							"            \"title\": \"The Cur_Scale schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": 0,\r",
+							"            \"examples\": [\r",
+							"                1\r",
+							"            ]\r",
+							"        },\r",
+							"        \"Date\": {\r",
+							"            \"$id\": \"#/properties/Date\",\r",
+							"            \"type\": \"string\",\r",
+							"            \"title\": \"The Date schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": \"\",\r",
+							"            \"examples\": [\r",
+							"                \"2022-02-05T00:00:00\"\r",
+							"            ]\r",
+							"        }\r",
+							"    },\r",
+							"    \"additionalProperties\": true\r",
+							"\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.test('2 Verify schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(schema, jsonData)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -663,12 +776,12 @@
 					"formdata": [
 						{
 							"key": "auth_token",
-							"value": "/s34lfgbj/123/jjd909/39590kjkWpqc2990123178823evny",
+							"value": "{{token}}",
 							"type": "text"
 						},
 						{
 							"key": "curr_code",
-							"value": "123",
+							"value": "451",
 							"type": "text"
 						}
 					]
